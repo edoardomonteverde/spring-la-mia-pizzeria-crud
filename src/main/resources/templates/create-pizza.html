@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head-bootstrap-link :: head('Crea Nuova Pizza')}"></head>
+
+<body>
+    <div th:replace="~{fragments/header-easy-pizza :: header-easy-pizza}"></div>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Crea Nuova Pizza</h2>
+
+        <!-- Form per la creazione della pizza -->
+        <form th:action="@{/}" th:object="${pizza}" method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome Pizza</label>
+                <input type="text" class="form-control" id="nome" th:field="*{nome}" required maxlength="100">
+            </div>
+
+            <div class="mb-3">
+                <label for="descrizione" class="form-label">Descrizione</label>
+                <input type="text" class="form-control" id="descrizione" th:field="*{descrizione}" required maxlength="255">
+            </div>
+
+            <div class="mb-3">
+                <label for="categoria" class="form-label">Categoria</label>
+                <select class="form-select" id="categoria" th:field="*{categoria}" required>
+                    <option value="rosse">Rosse</option>
+                    <option value="bianche">Bianche</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="note" class="form-label">Note</label>
+                <textarea class="form-control" id="note" th:field="*{note}" rows="3" maxlength="500"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="fotoUrl" class="form-label">URL Immagine</label>
+                <input type="text" class="form-control" id="fotoUrl" th:field="*{fotoUrl}" placeholder="Inserisci l'URL dell'immagine" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Ingredienti</label>
+                <div th:each="ingrediente : ${ingredienti}">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" th:value="${ingrediente.id}" 
+                               th:id="'ingrediente-' + ${ingrediente.id}" th:name="ingredienti"
+                               th:data-price="${ingrediente.prezzo}" />
+                        <label class="form-check-label" th:for="'ingrediente-' + ${ingrediente.id}">
+                            <span th:text="${ingrediente.nome}"></span> - €<span th:text="${ingrediente.prezzo}"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="prezzoTotale" class="form-label">Prezzo Totale</label>
+                <input type="text" class="form-control" id="prezzoTotale" th:value="${pizza.prezzo}" readonly />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Crea Pizza</button>
+        </form>
+    </div>
+
+    <div th:replace="~{fragments/bootstrap-script :: bootstrapScript}"></div>
+
+    <!-- JavaScript per calcolare il prezzo totale -->
+    <script>
+        function updatePrice() {
+            let totalPrice = 0;
+            document.querySelectorAll('input[name="ingredienti"]:checked').forEach(function(checkbox) {
+                totalPrice += parseFloat(checkbox.getAttribute('data-price'));
+            });
+            document.getElementById('prezzoTotale').value = totalPrice.toFixed(2);
+        }
+
+        document.querySelectorAll('input[name="ingredienti"]').forEach(function(checkbox) {
+            checkbox.addEventListener('change', updatePrice);
+        });
+
+        updatePrice();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

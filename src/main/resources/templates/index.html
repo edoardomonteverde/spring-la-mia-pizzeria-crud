@@ -1,51 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="fragments/head-bootstrap-link :: head('La mia Pizzeria Index')"></head>
-
+<head th:replace="fragments/head-bootstrap-link :: head('Le nostre pizze')"></head>
 <body>
     <div th:replace="fragments/header-easy-pizza :: header-easy-pizza"></div>
 
     <div class="container mt-5">
         <h2 class="text-center mb-4">Le nostre Pizze</h2>
 
-        <!-- Messaggio di scuse se la lista è vuota -->
-        <div th:if="${pizze.isEmpty()}" class="alert alert-info text-center">
-            <div class="d-flex justify-content-center align-items-center">
-                <!-- Icona di scuse -->
-                <i class="bi bi-tools" style="font-size: 3rem; margin-right: 10px;"></i>
-                <div>
-                    <h4 class="mb-3">Ci scusiamo per il disagio!</h4>
-                    <p>Stiamo lavorando per aggiungere nuove pizze al nostro menù. Torna presto!</p>
-                    <p><small><em>Grazie per la pazienza!</em></small></p>
-                </div>
-            </div>
+        <!-- Bottone per creare una nuova pizza -->
+        <div class="text-center mb-4">
+            <a href="/new" class="btn btn-success">Crea Nuova Pizza</a>
         </div>
 
-        <!-- Grid delle pizze, solo se ci sono pizze -->
-        <div th:unless="${pizze.isEmpty()}" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> <!-- col-12 col-sm-6 col-lg-4 -->
+        <!-- Verifica se la lista delle pizze è vuota -->
+        <div th:if="${#lists.isEmpty(pizze)}">
+            <p class="text-center">Al momento non ci sono pizze disponibili. Torna presto!</p>
+        </div>
+
+        <!-- Grid delle pizze -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:unless="${#lists.isEmpty(pizze)}">
             <div th:each="pizza : ${pizze}" class="col">
-                <!-- Card Pizza -->
                 <div class="card shadow-sm">
-                    <!-- Immagine della pizza -->
                     <img th:src="@{${pizza.fotoUrl}}" class="card-img-top img-fluid" alt="Pizza Image" style="height: 200px; object-fit: cover;">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <h5 class="card-title" th:text="${pizza.nome}">Pizza Name</h5>
-                            <span class="badge bg-warning text-dark" th:text="${pizza.prezzo} + ' €'">Price</span>
-                        </div>
+                        <h5 class="card-title" th:text="${pizza.nome}">Pizza Name</h5>
+                        <span class="badge bg-warning text-dark" th:text="${pizza.prezzo} + ' €'">Price</span>
                         <p class="card-text" th:text="${pizza.descrizione}">Pizza Description</p>
-
-                        <!-- Categoria Pizza -->
-                        <div class="mt-3">
-                            <span class="badge bg-info text-white" th:text="${pizza.categoria}">Categoria</span>
-                        </div>
+                        <span class="badge bg-info text-white" th:text="${pizza.categoria}">Categoria</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div th:replace="fragments/bootstrap-script :: bootstrapScript"></div>   
+
+    <div th:replace="fragments/bootstrap-script :: bootstrapScript"></div>
 </body>
 </html>
