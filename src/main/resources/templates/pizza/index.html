@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="@{/css/style.css}">
 <head th:replace="fragments/head-bootstrap-link :: head('Le nostre pizze')"></head>
 <body>
     <div th:replace="fragments/header-easy-pizza :: header-easy-pizza"></div>
@@ -9,7 +10,7 @@
 
         <!-- Bottone per creare una nuova pizza -->
         <div class="text-center mb-4">
-            <a href="/new" class="btn btn-success">Crea Nuova Pizza</a>
+            <a href="pizzas/new" class="btn btn-success">Crea Nuova Pizza</a>
         </div>
 
         <!-- Verifica se la lista delle pizze è vuota -->
@@ -21,13 +22,24 @@
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:unless="${#lists.isEmpty(pizze)}">
             <div th:each="pizza : ${pizze}" class="col">
                 <div class="card shadow-sm">
+                    <a th:href="@{/pizzas/{id}(id=${pizza.id})}" class="text-decoration-none">
                     <img th:src="@{${pizza.fotoUrl}}" class="card-img-top img-fluid" alt="Pizza Image" style="height: 200px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${pizza.nome}">Pizza Name</h5>
                         <span class="badge bg-warning text-dark" th:text="${pizza.prezzo} + ' €'">Price</span>
                         <p class="card-text" th:text="${pizza.descrizione}">Pizza Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
                         <span class="badge bg-info text-white" th:text="${pizza.categoria}">Categoria</span>
+                        <div>
+                        <a th:href="@{/pizzas/edit/{id}(id=${pizza.id})}" class="btn btn-warning">Modifica</a>
+                        <!-- Bottone Elimina -->
+                         <form th:action="@{/pizzas/delete/{id}(id=${pizza.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questa pizza?')">Elimina</button>
+                         </form>
+                         </div>
+                         </div>
                     </div>
+                    </a>
                 </div>
             </div>
         </div>

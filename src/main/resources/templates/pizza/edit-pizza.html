@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/head-bootstrap-link :: head('MOdifica Pizza')"></head>
+<body>
+    <div th:replace="fragments/header-easy-pizza :: header-easy-pizza"></div>
+
+    <h2>Modifica Pizza</h2>
+
+    <form th:action="@{/pizzas/edit/{id}(id=${pizza.id})}" th:object="${pizza}" method="post">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" th:field="*{nome}" />
+
+        <label for="descrizione">Descrizione</label>
+        <textarea id="descrizione" th:field="*{descrizione}"></textarea>
+
+        <label for="fotoUrl">URL Foto</label>
+        <input type="text" id="fotoUrl" th:field="*{fotoUrl}" />
+
+        <label for="ingredienti">Ingredienti</label>
+        <div th:each="ingrediente : ${ingredienti}">
+            <input type="checkbox" th:value="${ingrediente.id}" th:id="'ingrediente-' + ${ingrediente.id}" 
+                   th:name="ingredienti" th:checked="${pizza.ingredienti.contains(ingrediente)}"/>
+            <label th:for="'ingrediente-' + ${ingrediente.id}">
+                <span th:text="${ingrediente.nome}"></span> - €<span th:text="${ingrediente.prezzo}"></span>
+            </label>
+        </div>
+
+        <button type="submit">Salva modifiche</button>
+    </form>
+    <div th:replace="fragments/bootstrap-script :: bootstrapScript"></div>
+</body>
+</html>

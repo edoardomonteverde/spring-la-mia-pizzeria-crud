@@ -1,0 +1,8 @@
+a.stretched-link {
+    text-decoration: none; /* Rimuove la sottolineatura */
+    color: inherit; /* Mantiene il colore del testo del genitore (in questo caso il colore del titolo della card) */
+}
+
+.card {
+    position: relative; /* Necessario per far funzionare stretched-link correttamente */
+}

@@ -9,15 +9,23 @@
         <h2 class="text-center mb-4">Crea Nuova Pizza</h2>
 
         <!-- Form per la creazione della pizza -->
-        <form th:action="@{/}" th:object="${pizza}" method="post" class="needs-validation" novalidate>
+        <form th:action="@{/pizzas}" th:object="${pizza}" method="post" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome Pizza</label>
                 <input type="text" class="form-control" id="nome" th:field="*{nome}" required maxlength="100">
+                 <!-- Mostra errore se il campo nome è invalido -->
+                <div th:if="${#fields.hasErrors('nome')}" class="text-danger">
+                <p th:errors="*{nome}"></p>
+        </div>
             </div>
 
             <div class="mb-3">
                 <label for="descrizione" class="form-label">Descrizione</label>
                 <input type="text" class="form-control" id="descrizione" th:field="*{descrizione}" required maxlength="255">
+                  <!-- Mostra errore se il campo descrizione è invalido -->
+                <div th:if="${#fields.hasErrors('descrizione')}" class="text-danger">
+                <p th:errors="*{descrizione}"></p>
+        </div>
             </div>
 
             <div class="mb-3">
@@ -36,6 +44,9 @@
             <div class="mb-3">
                 <label for="fotoUrl" class="form-label">URL Immagine</label>
                 <input type="text" class="form-control" id="fotoUrl" th:field="*{fotoUrl}" placeholder="Inserisci l'URL dell'immagine" required>
+                <div th:if="${#fields.hasErrors('fotoUrl')}" class="text-danger">
+            <p th:errors="*{fotoUrl}"></p>
+        </div>
             </div>
 
             <div class="mb-3">
@@ -48,8 +59,10 @@
                         <label class="form-check-label" th:for="'ingrediente-' + ${ingrediente.id}">
                             <span th:text="${ingrediente.nome}"></span> - €<span th:text="${ingrediente.prezzo}"></span>
                         </label>
+                       
                     </div>
                 </div>
+                <div class="text-danger" th:if="${#fields.hasErrors('ingredienti')}" th:errors="*{ingredienti}">Ingredienti error</div>
             </div>
 
             <div class="mb-3">

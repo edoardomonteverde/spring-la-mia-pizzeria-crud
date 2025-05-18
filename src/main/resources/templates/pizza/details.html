@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head-bootstrap-link :: head('Pizza Details')"></head>
+<body>
+
+    <div th:replace="fragments/header-easy-pizza :: header-easy-pizza"></div>
+
+    <div class="container mt-5">
+        <!-- Dettaglio Pizza -->
+        <h2 class="text-center mb-4" th:text="${pizza.nome}">Pizza Name</h2>
+
+        <div class="card">
+            
+            <div class="card-body text-center">
+                <img th:src="@{${pizza.fotoUrl}}" class="card-img-top img-fluid" style="max-width: 300px; height: auto;" alt="Pizza Image">
+                <h5 class="card-title">Descrizione</h5>
+                <p class="card-text" th:text="${pizza.descrizione}">Pizza Description</p>
+                <h5 class="card-title">Prezzo</h5>
+                <p class="card-text" th:text="${pizza.prezzo} + ' €'">Pizza Price</p>
+            </div>
+        </div>
+
+        <!-- Link per tornare indietro alla lista delle pizze -->
+        <div class="text-center mt-4">
+            <a href="/pizzas" class="btn btn-primary">Lista delle Pizze</a>
+        </div>
+    </div>
+
+
+    <div th:replace="fragments/bootstrap-script :: bootstrapScript"></div>
+</body>
+</html>

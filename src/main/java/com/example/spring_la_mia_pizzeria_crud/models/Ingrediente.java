@@ -2,10 +2,13 @@ package com.example.spring_la_mia_pizzeria_crud.models;
 
 
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,6 +21,8 @@ public class Ingrediente {
 
     private String nome;
     private double prezzo;
+    @ManyToMany(mappedBy = "ingredienti")
+    private List<Pizza> pizze;
 
     // Getter e Setter
     public Long getId() {
@@ -42,5 +47,13 @@ public class Ingrediente {
 
     public void setPrezzo(double prezzo) {
         this.prezzo = prezzo;
+    }
+
+    public List<Pizza> getPizze() {
+        return pizze;
+    }
+
+    public void setPizze(List<Pizza> pizze) {
+        this.pizze = pizze;
     }
 }
